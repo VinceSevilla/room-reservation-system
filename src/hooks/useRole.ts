@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabase';
 import { useAuth } from '../context/useAuth';
+import type { Role } from '../types/roles';
 
 export function useRole() {
   const { user } = useAuth();
-  const [role, setRole] = useState<string | null>(null);
+  const [role, setRole] = useState<Role | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,15 +33,15 @@ export function useRole() {
               hint: error.hint
             });
           }
-          setRole('student'); // Default to student on error
+          setRole('student' as Role); // Default to student on error
         } else {
           console.log('Successfully fetched role:', data?.role);
-          setRole(data?.role ?? 'student'); // Default to student if no role
+          setRole((data?.role as Role) ?? 'student'); // Default to student if no role
         }
       } catch (networkError) {
         // Handle network errors separately
         console.error('Network error fetching role:', networkError);
-        setRole('student'); // Default to student on network error
+        setRole('student' as Role); // Default to student on network error
       } finally {
         setLoading(false);
       }

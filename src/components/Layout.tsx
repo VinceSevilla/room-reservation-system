@@ -20,9 +20,20 @@ export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    localStorage.clear();
-    navigate('/auth', { replace: true });
+    try {
+      await supabase.auth.signOut({ scope: 'local' });
+      // Clear only Supabase-related keys, not everything
+      Object.keys(localStorage).forEach(key => {
+        if (key.includes('supabase') || key.includes('auth')) {
+          localStorage.removeItem(key);
+        }
+      });
+      sessionStorage.clear();
+      navigate('/auth', { replace: true });
+    } catch (error) {
+      console.error('Logout error:', error);
+      navigate('/auth', { replace: true });
+    }
   };
 
   const navItems = [

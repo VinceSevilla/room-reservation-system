@@ -46,6 +46,14 @@ export default function Layout({ children }: LayoutProps) {
     ...(role === ROLE.Staff || role === ROLE.Admin ? [{ label: 'Staff', icon: IconUsers, path: '/staff' }] : []),
   ];
 
+  const handleNavClick = (path: string) => {
+    navigate(path);
+    // Close mobile sidebar after navigation
+    if (mobileOpened) {
+      toggleMobile();
+    }
+  };
+
   return (
     <AppShell 
       header={{ height: 60 }} 
@@ -58,15 +66,17 @@ export default function Layout({ children }: LayoutProps) {
     >
       <AppShell.Header p="md">
         <Group justify="space-between" h="100%">
-          <Group>
+          <Group gap="xs">
             <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
             <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
-            <Text fw={700} size="lg">
+            <Text fw={700} size={{ base: 'sm', sm: 'lg' }} style={{ whiteSpace: 'nowrap' }}>
               UNI RESERVATION
             </Text>
           </Group>
-          <Group gap="xs">
-            <Text size="sm">{user?.email}</Text>
+          <Group gap={{ base: 'xs', sm: 'md' }}>
+            <Text size="sm" visibleFrom="sm">
+              {user?.email}
+            </Text>
             <Button size="xs" variant="light" leftSection={<IconLogout size={14} />} onClick={handleLogout}>
               Logout
             </Button>
@@ -81,7 +91,7 @@ export default function Layout({ children }: LayoutProps) {
               key={item.path}
               label={item.label}
               leftSection={<item.icon size={16} />}
-              onClick={() => navigate(item.path)}
+              onClick={() => handleNavClick(item.path)}
               active={location.pathname === item.path}
             />
           ))}

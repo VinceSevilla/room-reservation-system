@@ -81,9 +81,9 @@ export default function Rooms() {
   if (loading) return <Center h={500}><Loader size="lg" /></Center>;
 
   return (
-    <Container size="xl" fluid>
-      <Box mb="xl">
-        <Group justify="space-between" align="center">
+    <Container size="xl" fluid p={{ base: 'sm', sm: 'md', md: 'lg' }}>
+      <Box mb={{ base: 'md', sm: 'lg', md: 'xl' }}>
+        <Group justify="space-between" align={{ base: 'flex-start', sm: 'center' }} wrap="wrap" gap={{ base: 'sm', sm: 'md' }}>
           <Box>
             <Title order={1} fw={700} size="h2" mb="xs">
               Rooms Management
@@ -100,50 +100,52 @@ export default function Rooms() {
         </Group>
       </Box>
 
-      <Card withBorder shadow="sm" p="lg" radius="md">
-        <Table striped highlightOnHover verticalSpacing="md">
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th><Text fw={600} size="sm">Name</Text></Table.Th>
-              <Table.Th><Text fw={600} size="sm">Capacity</Text></Table.Th>
-              <Table.Th><Text fw={600} size="sm">Location</Text></Table.Th>
-              {(role === 'admin' || role === 'staff') && <Table.Th><Text fw={600} size="sm">Actions</Text></Table.Th>}
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {rooms.map((room) => (
-              <Table.Tr key={room.id}>
-                <Table.Td><Text fw={500} ta="center">{room.name}</Text></Table.Td>
-                <Table.Td><Text ta="center">{room.capacity}</Text></Table.Td>
-                <Table.Td><Text ta="center">{room.location}</Text></Table.Td>
-                {(role === 'admin' || role === 'staff') && (
-                  <Table.Td>
-                    <Group gap="xs" justify="center">
-                      <Button size="xs" variant="light" onClick={() => { setEditingRoom(room); setName(room.name); setCapacity(room.capacity); setLocation(room.location); setOpened(true); }}>
-                        Edit
-                      </Button>
-                      {role === 'admin' && (
-                        <Button color="red" size="xs" variant="light" onClick={() => { setRoomToDelete(room); openDelete(); }}>
-                          Delete
-                        </Button>
-                      )}
-                    </Group>
-                  </Table.Td>
-                )}
+      <Card withBorder shadow="sm" p={{ base: 'sm', sm: 'md', md: 'lg' }} radius="md">
+        <Box style={{ overflowX: 'auto' }}>
+          <Table striped highlightOnHover verticalSpacing={{ base: 'xs', sm: 'md' }}>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th><Text fw={600} size="sm">Name</Text></Table.Th>
+                <Table.Th><Text fw={600} size="sm">Capacity</Text></Table.Th>
+                <Table.Th><Text fw={600} size="sm">Location</Text></Table.Th>
+                {(role === 'admin' || role === 'staff') && <Table.Th><Text fw={600} size="sm">Actions</Text></Table.Th>}
               </Table.Tr>
-            ))}
-          </Table.Tbody>
-        </Table>
+            </Table.Thead>
+            <Table.Tbody>
+              {rooms.map((room) => (
+                <Table.Tr key={room.id}>
+                  <Table.Td><Text fw={500} ta="center" size="sm">{room.name}</Text></Table.Td>
+                  <Table.Td><Text ta="center" size="sm">{room.capacity}</Text></Table.Td>
+                  <Table.Td><Text ta="center" size="sm">{room.location}</Text></Table.Td>
+                  {(role === 'admin' || role === 'staff') && (
+                    <Table.Td>
+                      <Group gap={{ base: 'xs', sm: 'xs' }} justify="center" wrap="wrap">
+                        <Button size="xs" variant="light" onClick={() => { setEditingRoom(room); setName(room.name); setCapacity(room.capacity); setLocation(room.location); setOpened(true); }}>
+                          Edit
+                        </Button>
+                        {role === 'admin' && (
+                          <Button color="red" size="xs" variant="light" onClick={() => { setRoomToDelete(room); openDelete(); }}>
+                            Delete
+                          </Button>
+                        )}
+                      </Group>
+                    </Table.Td>
+                  )}
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
+          </Table>
+        </Box>
       </Card>
 
-      <Modal opened={opened} onClose={() => { setOpened(false); resetForm(); }} title={<Text fw={600} size="lg">{editingRoom ? 'Edit Room' : 'Add Room'}</Text>} size="md">
+      <Modal opened={opened} onClose={() => { setOpened(false); resetForm(); }} title={<Text fw={600} size="lg">{editingRoom ? 'Edit Room' : 'Add Room'}</Text>} size="sm">
         <Stack gap="md">
           <TextInput label="Room Name" value={name} onChange={(e) => setName(e.target.value)} required size="md" styles={{ label: { fontWeight: 500 } }} />
           <NumberInput label="Capacity" value={capacity} onChange={(value) => setCapacity(typeof value === 'number' ? value : undefined)} required min={1} size="md" styles={{ label: { fontWeight: 500 } }} />
           <TextInput label="Location" value={location} onChange={(e) => setLocation(e.target.value)} required size="md" styles={{ label: { fontWeight: 500 } }} />
-          <Group justify="flex-end" mt="md">
-            <Button variant="default" onClick={() => { setOpened(false); resetForm(); }}>Cancel</Button>
-            <Button onClick={saveRoom}>{editingRoom ? 'Update' : 'Add'}</Button>
+          <Group justify="flex-end" mt="md" gap={{ base: 'xs', sm: 'md' }}>
+            <Button size="sm" variant="default" onClick={() => { setOpened(false); resetForm(); }}>Cancel</Button>
+            <Button size="sm" onClick={saveRoom}>{editingRoom ? 'Update' : 'Add'}</Button>
           </Group>
         </Stack>
       </Modal>

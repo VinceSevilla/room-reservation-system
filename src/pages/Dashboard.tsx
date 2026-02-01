@@ -57,16 +57,16 @@ export default function Dashboard() {
 
   return (
     <Container size="xl" fluid>
-      <Box mb="xl">
-        <Title order={1} fw={700} size="h2" mb="xs">
+      <Box mb={{ base: 'md', sm: 'lg', md: 'xl' }}>
+        <Title order={1} fw={700} size={{ base: 'h3', sm: 'h2', md: 'h2' }} mb="xs">
           Dashboard
         </Title>
-        <Text c="dimmed" size="md">
+        <Text c="dimmed" size={{ base: 'sm', sm: 'md' }}>
           Welcome back! Here's your overview.
         </Text>
       </Box>
 
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
+      <SimpleGrid cols={{ base: 1, xs: 1, sm: 2, md: 3, lg: 3 }} spacing={{ base: 'md', sm: 'lg' }}>
         {role === ROLE.Admin && (
           <>
             <StatCard label="Total Rooms" value={stats.rooms} />

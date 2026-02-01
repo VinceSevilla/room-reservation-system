@@ -85,9 +85,9 @@ export default function AuthPage() {
   console.log('signingIn state:', signingIn);
 
   return (
-    <Box style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #667eea, #764ba2)' }}>
-      <Container size={440}>
-        <Card withBorder shadow="md" p={40} radius="md">
+    <Box style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #667eea, #764ba2)', padding: '16px' }}>
+      <Container size={440} p={{ base: 'sm', sm: 'md' }}>
+        <Card withBorder shadow="md" p={{ base: 'md', sm: '40px' }} radius="md">
           <Title order={1} ta="center" fw={700} size="h2" mb="sm">
             Reservation System
           </Title>
